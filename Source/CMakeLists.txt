@@ -67,12 +67,12 @@ if(WIN32)
 		if(${BS_FRAMEWORK_SRC_DEPENDENCIES_VERSION} GREATER ${CURRENT_SOURCE_DEP_VERSION})
 			message(STATUS "Built dependencies are out of date, forcing recompile.")
 			execute_process(COMMAND "${CMAKE_COMMAND}"
-				-E remove_directory "${SOURCE_DEP_BUILD_DIR}")	
+				-E remove_directory "${SOURCE_DEP_BUILD_DIR}")
 		endif()
 	else()
 		message(STATUS "Built dependencies are out of date, forcing recompile.")
 		execute_process(COMMAND "${CMAKE_COMMAND}"
-			-E remove_directory "${SOURCE_DEP_BUILD_DIR}")	
+			-E remove_directory "${SOURCE_DEP_BUILD_DIR}")
 	endif()
 endif()
 
@@ -144,7 +144,7 @@ if(INCLUDE_ALL_IN_WORKFLOW AND MSVC)
 	add_subdirectory(Plugins/bsfNullPhysics)
 	add_subdirectory(Plugins/bsfRenderBeast)
 	add_subdirectory(Plugins/bsfNullRenderer)
-	
+
 	## Scripting
 	add_subdirectory(Scripting/bsfMono)
 	add_subdirectory(Scripting/bsfScript)
@@ -154,11 +154,11 @@ else() # Otherwise include only chosen ones
 		if(WIN32)
 			add_subdirectory(Plugins/bsfD3D11RenderAPI)
 		endif()
-		
+
 		if(NOT APPLE)
 			add_subdirectory(Plugins/bsfVulkanRenderAPI)
 		endif()
-		
+
 		add_subdirectory(Plugins/bsfGLRenderAPI)
 		add_subdirectory(Plugins/bsfNullRenderAPI)
 	else()
@@ -180,23 +180,23 @@ else() # Otherwise include only chosen ones
 	else()
 		add_subdirectory(Plugins/bsfNullAudio)
 	endif()
-	
+
 	if(PHYSICS_MODULE MATCHES "PhysX")
 		add_subdirectory(Plugins/bsfPhysX)
 	else()
 		add_subdirectory(Plugins/bsfNullPhysics)
 	endif()
-	
+
 	if(RENDERER_MODULE MATCHES "RenderBeast")
 		add_subdirectory(Plugins/bsfRenderBeast)
 	else()
 		add_subdirectory(Plugins/bsfNullRenderer)
 	endif()
-	
+
 	if((SCRIPT_API AND (NOT SCRIPT_API MATCHES "None")) OR BS_IS_BANSHEE3D)
 		add_subdirectory(Scripting/bsfScript)
 	endif()
-	
+
 	if((SCRIPT_API AND SCRIPT_API MATCHES "C#") OR BS_IS_BANSHEE3D)
 		add_subdirectory(Scripting/bsfMono)
 		add_subdirectory(Scripting/bsfSharp)
@@ -220,7 +220,7 @@ if(BUILD_TESTS)
 		Foundation/bsfUtility/Private/UnitTests/BsUtilityTest.cpp
 		Foundation/bsfUtility/Private/UnitTests/BsUtilityTestSuite.cpp
 		Foundation/bsfUtility/Private/UnitTests/BsFileSystemTestSuite.cpp)
-		
+
 	target_link_libraries(UtilityTest bsf)
 	target_include_directories(UtilityTest PRIVATE
 		"Foundation/bsfUtility"
@@ -228,12 +228,12 @@ if(BUILD_TESTS)
 
 	add_executable(CoreTest
 		Foundation/bsfCore/Private/UnitTests/BsCoreTest.cpp)
-		
+
 	target_link_libraries(CoreTest bsf)
-	
+
 	set_property(TARGET UtilityTest PROPERTY FOLDER Tests)
-	set_property(TARGET CoreTest PROPERTY FOLDER Tests)	
-	
+	set_property(TARGET CoreTest PROPERTY FOLDER Tests)
+
 	add_test(NAME UtilityTests COMMAND $<TARGET_FILE:UtilityTest>)
 	add_test(NAME CoreTests COMMAND $<TARGET_FILE:UtilityTest>)
 endif()
@@ -245,16 +245,16 @@ add_common_flags(bsfImportTool)
 target_compile_definitions(bsfImportTool PUBLIC -DBS_IS_ASSET_TOOL)
 
 target_link_libraries(bsfImportTool bsf)
-	
+
 add_engine_dependencies(bsfImportTool)
 add_importer_dependencies(bsfImportTool)
 
 set_property(TARGET bsfImportTool PROPERTY FOLDER Utilities)
 
 if(NOT BS_IS_BANSHEE3D)
-	install(TARGETS bsfImportTool RUNTIME DESTINATION bin)	
+	install(TARGETS bsfImportTool RUNTIME DESTINATION bin)
 endif()
-	
+
 set(BS_FTP_CREDENTIALS_FILE "${PROJECT_SOURCE_DIR}/../ftp_credentials" CACHE STRING "The location containing the FTP server credentials to use for uploading packages. The file is expected to contain three lines: URL/Username/Password, in that order.")
 mark_as_advanced(BS_FTP_CREDENTIALS_FILE)
 
@@ -278,14 +278,14 @@ if(((SCRIPT_API AND (NOT SCRIPT_API MATCHES "None")) OR BS_IS_BANSHEE3D) AND SCR
 endif()
 
 if(NOT BS_IS_BANSHEE3D)
-	set(DATA_DST_DIR bin)
+	set(DATA_DST_DIR share/bsf/)
 else()
 	set(DATA_DST_DIR .)
 endif()
 
 ## Install
 install(
-	DIRECTORY ../Data
+	DIRECTORY ../Data/
 	DESTINATION ${DATA_DST_DIR}
 	PATTERN "../Data/Raw" EXCLUDE
 	PATTERN ".version" EXCLUDE
